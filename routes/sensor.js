@@ -4,7 +4,8 @@ const router = express.Router()
 router.post("/data",(req,res)=>{
     try{
         const data = req.body
-        res.status(200).json(`Sensor Data : ${data}`)
+        console.log(data)   
+        res.status(200).json(data)
     }catch(err){
         res.status(500).json(`Server error : ${err}`)
         console.log("Some error occurred : ",err)
