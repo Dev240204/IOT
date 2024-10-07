@@ -4,7 +4,7 @@ const Data = require("../models/data")
 
 router.post("/data", async (req,res)=>{
     try{
-        const reqdata = req
+        const reqdata = req.body
         console.log(reqdata)
 
         // const data = await new Data({
