@@ -6,6 +6,7 @@ const PORT = process.env.PORT;
 const cors = require("cors")
 const sensorRouter = require("../routes/sensor")
 const connect = require("./connect")
+const startMqtt = require("./mqttHandler")
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({extended : true}))
 connect()
 .then(() => {
     console.log("Ready to Save data!")
+    startMqtt()
 })
 .catch((err) => {
     console.log("Some error occurred",err)
