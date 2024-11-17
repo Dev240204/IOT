@@ -3,17 +3,24 @@ const mqtt = require('mqtt');
 const Data = require("../models/data");
 
 const startMQTT = () => {
-    const mqttClient = mqtt.connect(process.env.MQTT_SERVER_HOST, {
+    const mqttUrl = `mqtt://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`;
+
+    const options = {
         username: process.env.MQTT_USERNAME,
         password: process.env.MQTT_PASSWORD,
-        port: process.env.MQTT_PORT
-    });
+        clean: true,
+        reconnectPeriod: 5000,
+        connectTimeout: 30 * 1000,
+        rejectUnauthorized: false
+    };
+
+    const mqttClient = mqtt.connect(mqttUrl, options);
 
     const topic = 'esp32/data';
 
     mqttClient.on('connect', () => {
         console.log('Connected to MQTT broker');
-        mqttClient.subscribe(topic, (err) => {
+        mqttClient.subscribe(topic,{qos: 1}, (err) => {
             if (err) {
                 console.error('MQTT subscription error:', err);
             } else {
